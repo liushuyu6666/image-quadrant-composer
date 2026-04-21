@@ -22,10 +22,9 @@ def compose_image(
     it, so the caller does not need to resize beforehand — this function
     resizes ``new_image`` to fit.
 
-    The three kept originals plus the resized new piece are written as
-    ``1.<ext>..4.<ext>`` into a fresh timestamped directory:
+    The reassembled full image is written as ``composed.<ext>`` into a
+    fresh timestamped directory:
         ``<root>/image_quadrant_composer/composes/<YYYY-MM-DD_HH-MM-SS>/``
-    The reassembled full image is written alongside as ``composed.<ext>``.
 
     Returns ``(output_dir, composed_image)``.
     """
@@ -56,9 +55,6 @@ def compose_image(
     canvas.paste(_match_mode(pieces[3], mode), (pieces[0].width, pieces[0].height))
 
     out_dir = timestamped_dir(root, COMPOSES_FOLDER)
-    for i, piece in enumerate(pieces, start=1):
-        to_save = _match_mode(piece, mode) if save_rgb else piece
-        to_save.save(out_dir / f"{i}.{ext}")
     canvas.save(out_dir / f"composed.{ext}")
 
     return out_dir, canvas

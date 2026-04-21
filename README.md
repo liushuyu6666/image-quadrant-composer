@@ -25,10 +25,6 @@ Both operations write to a fresh timestamped directory under a `root` directory 
         4.jpg   # lower-right
     composes/
       2026-04-20_20-08-02/
-        1.jpg        # three originals + the resized new piece
-        2.jpg
-        3.jpg
-        4.jpg
         composed.jpg # the reassembled full image
 ```
 
@@ -78,7 +74,7 @@ image-quadrant-composer compose <source_dir> <new_image> <position> [--root .] [
 image-quadrant-composer compose \
   ./image_quadrant_composer/splits/2026-04-20_20-07-51 \
   replacement.jpg 2
-# writes ./image_quadrant_composer/composes/<datetime>/{1,2,3,4}.jpg and composed.jpg
+# writes ./image_quadrant_composer/composes/<datetime>/composed.jpg
 ```
 
 ### size
@@ -119,7 +115,7 @@ split_dir, pieces = split_image("input.jpg", (150, 100))
 
 # compose — replace quadrant 2 with a new image of any size
 compose_dir, composed = compose_image(split_dir, "replacement.jpg", position=2)
-# compose_dir contains 1..4.jpg plus composed.jpg
+# compose_dir contains composed.jpg
 # composed is the reassembled PIL.Image
 ```
 
@@ -133,7 +129,7 @@ compose_dir, composed = compose_image(split_dir, "replacement.jpg", position=2)
   - `source`: directory containing `1.<ext>..4.<ext>`.
   - `new_image`: replacement image (path-like or `PIL.Image.Image`); resized automatically.
   - `position`: integer `1..4` — which quadrant to replace.
-  - Returns `(output_dir, composed_image)`. The four pieces and `composed.<ext>` are written into `output_dir`.
+  - Returns `(output_dir, composed_image)`. `composed.<ext>` is written into `output_dir`.
 - `image_size(image) -> (int, int)`
   - `image`: path-like or `PIL.Image.Image`.
   - Returns `(width, height)` in pixels without loading the full pixel data.
