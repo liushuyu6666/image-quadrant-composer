@@ -81,6 +81,19 @@ image-quadrant-composer compose \
 # writes ./image_quadrant_composer/composes/<datetime>/{1,2,3,4}.jpg and composed.jpg
 ```
 
+### size
+
+Print the width and height of one or more images. Useful for picking a split point.
+
+```bash
+image-quadrant-composer size <image> [<image> ...]
+```
+
+```bash
+$ image-quadrant-composer size input.jpg
+input.jpg: 400x300
+```
+
 ### Module form
 
 Equivalent invocation without the console script:
@@ -88,12 +101,16 @@ Equivalent invocation without the console script:
 ```bash
 python -m image_quadrant_composer split input.jpg 150 100
 python -m image_quadrant_composer compose ./.../splits/2026-04-20_20-07-51 replacement.jpg 2
+python -m image_quadrant_composer size input.jpg
 ```
 
 ## Library
 
 ```python
-from image_quadrant_composer import split_image, compose_image
+from image_quadrant_composer import split_image, compose_image, image_size
+
+# inspect — (width, height) in pixels
+w, h = image_size("input.jpg")
 
 # split — size is the (width, height) of the upper-left quadrant
 split_dir, pieces = split_image("input.jpg", (150, 100))
@@ -117,3 +134,6 @@ compose_dir, composed = compose_image(split_dir, "replacement.jpg", position=2)
   - `new_image`: replacement image (path-like or `PIL.Image.Image`); resized automatically.
   - `position`: integer `1..4` — which quadrant to replace.
   - Returns `(output_dir, composed_image)`. The four pieces and `composed.<ext>` are written into `output_dir`.
+- `image_size(image) -> (int, int)`
+  - `image`: path-like or `PIL.Image.Image`.
+  - Returns `(width, height)` in pixels without loading the full pixel data.

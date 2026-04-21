@@ -4,6 +4,7 @@ import argparse
 import sys
 
 from .composer import compose_image
+from .inspector import image_size
 from .splitter import split_image
 
 
@@ -41,6 +42,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_compose.add_argument("--ext", default="jpg", help="extension (default: jpg)")
 
+    p_size = sub.add_parser("size", help="print width and height of one or more images")
+    p_size.add_argument("images", nargs="+", help="paths to images")
+
     args = parser.parse_args(argv)
 
     if args.command == "split":
@@ -64,6 +68,12 @@ def main(argv: list[str] | None = None) -> int:
             ext=args.ext,
         )
         print(out_dir)
+        return 0
+
+    if args.command == "size":
+        for path in args.images:
+            w, h = image_size(path)
+            print(f"{path}: {w}x{h}")
         return 0
 
     parser.error(f"unknown command: {args.command}")
