@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "image-quadrant-composer"
+version = "0.1.0"
+description = "Split an image into four quadrants and compose them back."
+requires-python = ">=3.9"
+dependencies = ["Pillow>=10.0.0"]
+
+[project.scripts]
+image-quadrant-composer = "image_quadrant_composer.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["image_quadrant_composer*"]
